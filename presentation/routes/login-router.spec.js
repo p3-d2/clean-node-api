@@ -55,15 +55,6 @@ describe('Login Router', () => {
     expect(httpResponse.statusCode).toBe(500)
   })
 
-  test('Should return 500 if httpRequest has body invalid', () => {
-    const { sut } = makeSut()
-    const httpRequest = {
-      body: 'invalid_body'
-    }
-    const httpResponse = sut.route(httpRequest)
-    expect(httpResponse.statusCode).toBe(500)
-  })
-
   test('Should call AuthUseCase with correct params', () => {
     const { sut, authUseCaseSpy } = makeSut()
     const httpRequest = {
