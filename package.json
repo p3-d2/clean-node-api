@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --silent --colors --noStackTrace --passWithNoTests",
-    "test:unit": "npm test -- --watchAll -c jest-unit-config.js",
-    "test:integration": "npm test -- --watchAll -c jest-integration-config.js",
+    "test:unit": "npm test -- --watch --maxWorkers=50% -c jest-unit-config.js",
+    "test:integration": "npm test -- --watch -c jest-integration-config.js",
     "test:staged": "npm test ----findRelatedTests",
     "test:ci": "npm test -- --coverage"
   },
