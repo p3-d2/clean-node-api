@@ -134,12 +134,12 @@ describe('Auth UseCase', () => {
       new AuthUseCase({
         loadUserByEmailRepository,
         encrypter,
-        token: notProvided
+        tokenGenerator: notProvided
       }),
       new AuthUseCase({
         loadUserByEmailRepository,
         encrypter,
-        token: invalid
+        tokenGenerator: invalid
       })
     ]
 
