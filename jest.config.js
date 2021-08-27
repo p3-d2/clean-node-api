@@ -7,6 +7,6 @@ module.exports = {
   testEnvironment: 'node',
   preset: '@shelf/jest-mongodb',
   watchPathIgnorePatterns: ['globalConfig'],
-  collectCoverageFrom: ['<rootDir>/src/**/*.js'],
+  collectCoverageFrom: ['<rootDir>/src/**/*.js', '!<rootDir>/src/main/**'],
   testMatch: ['<rootDir>/src/**/*.integration.js', '<rootDir>/src/**/*.unit.js']
 }
