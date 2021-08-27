@@ -11,13 +11,21 @@ const makeSut = () => {
 }
 
 describe('UpdateAccessToken Repository', () => {
+  let fakeUserId
+
   beforeAll(async () => {
     await MongoHelper.connect(process.env.MONGO_URL)
     db = MongoHelper.db
   })
 
   beforeEach(async () => {
-    await db.collection('users').deleteMany()
+    const userModel = db.collection('users')
+    await userModel.deleteMany()
+    const fakeUser = await userModel.insertOne({
+      email: 'valid_email@gmail.com',
+      password: 'hashed_password'
+    })
+    fakeUserId = fakeUser.insertedId
   })
 
   afterAll(async () => {
@@ -26,23 +34,14 @@ describe('UpdateAccessToken Repository', () => {
 
   test('Should update the user with the given accessToken', async () => {
     const { sut, userModel } = makeSut()
-    const fakeUser = await userModel.insertOne({
-      email: 'valid_email@gmail.com',
-      password: 'hashed_password'
-    })
-    await sut.update(fakeUser.insertedId, 'valid_token')
-    const updatedFakeUser = await userModel.findOne({ _id: fakeUser.insertedId })
+    await sut.update(fakeUserId, 'valid_token')
+    const updatedFakeUser = await userModel.findOne({ _id: fakeUserId })
     expect(updatedFakeUser.accessToken).toBe('valid_token')
   })
 
   test('Should throw if no userModel is provided', async () => {
-    const userModel = db.collection('users')
     const sut = new UpdateAccessTokenRepository()
-    const fakeUser = await userModel.insertOne({
-      email: 'valid_email@gmail.com',
-      password: 'hashed_password'
-    })
-    await expect(sut.update(fakeUser.insertedId, 'any_token')).rejects.toThrow()
+    await expect(sut.update(fakeUserId, 'any_token')).rejects.toThrow()
   })
 
   test('Should throw if no params are provided', async () => {
