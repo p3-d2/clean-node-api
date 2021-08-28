@@ -22,13 +22,13 @@ describe('Login Routes', () => {
   test('Should return 200 when valid credentials are provided', async () => {
     await userModel.insertOne({
       email: 'any_email@email.com',
-      password: await bcrypt.hash('hashed_password', 8)
+      password: await bcrypt.hash('any_password', 8)
     })
     await request(app)
       .post('/api/login')
       .send({
         email: 'any_email@email.com',
-        password: 'hashed_password'
+        password: 'any_password'
       })
       .expect(200)
   })
