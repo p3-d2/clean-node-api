@@ -5,15 +5,14 @@ const UpdateAccessTokenRepository = require('./update-access-token-repository')
 const makeSut = () => new UpdateAccessTokenRepository()
 
 describe('UpdateAccessToken Repository', () => {
-  let fakeUserId, db
+  let fakeUserId, userModel
 
   beforeAll(async () => {
     await MongoHelper.connect(process.env.MONGO_URL)
-    db = MongoHelper.db
+    userModel = MongoHelper.getCollection('users')
   })
 
   beforeEach(async () => {
-    const userModel = db.collection('users')
     await userModel.deleteMany()
     const fakeUser = await userModel.insertOne({
       email: 'valid_email@gmail.com',
@@ -29,7 +28,7 @@ describe('UpdateAccessToken Repository', () => {
   test('Should update the user with the given accessToken', async () => {
     const sut = makeSut()
     await sut.update(fakeUserId, 'valid_token')
-    const updatedFakeUser = await db.collection('users').findOne({ _id: fakeUserId })
+    const updatedFakeUser = await userModel.findOne({ _id: fakeUserId })
     expect(updatedFakeUser.accessToken).toBe('valid_token')
   })
 
