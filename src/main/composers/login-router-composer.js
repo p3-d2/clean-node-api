@@ -1,4 +1,4 @@
-const LoginRouter = require('../../presentation/routers/login-router')
+const LoginRouter = require('../../presentation/routes/login-router')
 const AuthUseCase = require('../../domain/usecases/auth-usecase')
 const EmailValidator = require('../../utils/helpers/email-validator')
 const LoadUserByEmailRepository = require('../../infra/repositories/load-user-by-email-repository')
